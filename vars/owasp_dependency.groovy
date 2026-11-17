@@ -10,6 +10,9 @@
 // }
 
 def call(){
-    dependencyCheck additionalArguments: '--scan ./backend --format XML --format HTML --out dependency-check-report.xml', odcInstallation: 'OWASP'
-    dependencyCheckPublisher pattern: 'dependency-check-report.xml/dependency-check-report.xml'
+    // Ensure node modules exist if scanning root node project
+    sh 'npm install --package-lock-only || true'
+    
+    dependencyCheck additionalArguments: '--scan ./ --format XML --format HTML', odcInstallation: 'OWASP'
+    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
 }
