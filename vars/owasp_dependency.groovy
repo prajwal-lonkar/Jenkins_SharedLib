@@ -10,9 +10,12 @@
 // }
 
 def call(){
-    // Ensure node modules exist if scanning root node project
-    sh 'npm install --package-lock-only || true'
+    // Install dependencies across root, backend, and frontend
+    sh 'npm run installer'
     
-    dependencyCheck additionalArguments: '--scan ./ --format XML --format HTML', odcInstallation: 'OWASP'
-    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+    // Run scan on root and explicitly output the XML file
+    dependencyCheck additionalArguments: '--scan ./ --format XML --format HTML --out .', odcInstallation: 'OWASP'
+    
+    // Publish the generated report
+    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 }
