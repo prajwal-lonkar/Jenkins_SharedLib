@@ -10,6 +10,6 @@
 // }
 
 def call(){
-    dependencyCheck additionalArguments: '--scan ./backend --scan ./frontend --format XML --format HTML', odcInstallation: 'OWASP'
-    dependencyCheckPublisher pattern: '**/**/dependency-check-report.xml'
+    dependencyCheck additionalArguments: '--scan ./backend --scan ./frontend --format XML --format HTML --out .', odcInstallation: 'OWASP'
+    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 }
